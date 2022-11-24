@@ -37,6 +37,8 @@ public class AccountingData {
             String titleBigSpend = monthData.getTitleBigSpend();
             double sumBigSpend = monthData.getSumBigSpend(titleBigSpend);
             System.out.println("Самая большая трата: " + titleBigSpend + ", " + sumBigSpend);
+
+            System.out.println("Прибыль в месяце: " + monthData.getProfit());
         }
     }
 
@@ -60,7 +62,7 @@ public class AccountingData {
         String[] monthTitle = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
                 "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < yearData.getMonthDataMap().size(); i++) {
             System.out.println(monthTitle[i] + ": " + yearData.getProfitByMonth(i + 1));
         }
 

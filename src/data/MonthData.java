@@ -1,6 +1,7 @@
 package data;
 
 import records.MonthlyRecord;
+
 import java.util.List;
 
 public class MonthData {
@@ -19,7 +20,7 @@ public class MonthData {
     public int getIncome() {
         int income = 0;
         for (MonthlyRecord record : monthlyRecordList) {
-            if(!record.isExpense()){
+            if (!record.isExpense()) {
                 income += record.getQuantity() * record.getSumOfOne();
             }
         }
@@ -29,7 +30,7 @@ public class MonthData {
     public int getExpense() {
         int expense = 0;
         for (MonthlyRecord record : monthlyRecordList) {
-            if(record.isExpense()){
+            if (record.isExpense()) {
                 expense += record.getQuantity() * record.getSumOfOne();
             }
         }
@@ -40,22 +41,22 @@ public class MonthData {
         int income = 0;
         int expense = 0;
         for (MonthlyRecord record : monthlyRecordList) {
-            if(record.isExpense()){
+            if (record.isExpense()) {
                 expense += record.getQuantity() * record.getSumOfOne();
-            }else {
+            } else {
                 income += record.getQuantity() * record.getSumOfOne();
             }
         }
         return income - expense;
     }
 
-    public String getTitleProfitProduct(){
+    public String getTitleProfitProduct() {
         String title = "";
         double quantityPerSumOfOne = 0;
         for (MonthlyRecord monthlyRecord : monthlyRecordList) {
-            if(!monthlyRecord.isExpense()){
+            if (!monthlyRecord.isExpense()) {
                 double profitCurrentProduct = monthlyRecord.getQuantity() * monthlyRecord.getSumOfOne();
-                if(profitCurrentProduct > quantityPerSumOfOne){
+                if (profitCurrentProduct > quantityPerSumOfOne) {
                     quantityPerSumOfOne = profitCurrentProduct;
                     title = monthlyRecord.getItemName();
                 }
@@ -64,22 +65,22 @@ public class MonthData {
         return title;
     }
 
-    public double getProfitByProduct(String title){
+    public double getProfitByProduct(String title) {
         for (MonthlyRecord monthlyRecord : monthlyRecordList) {
-            if(!monthlyRecord.isExpense() && monthlyRecord.getItemName().equalsIgnoreCase(title)){
+            if (!monthlyRecord.isExpense() && monthlyRecord.getItemName().equalsIgnoreCase(title)) {
                 return monthlyRecord.getQuantity() * monthlyRecord.getSumOfOne();
             }
         }
         return 0.0;
     }
 
-    public String getTitleBigSpend(){
+    public String getTitleBigSpend() {
         String title = "";
         double spendSum = 0;
         for (MonthlyRecord monthlyRecord : monthlyRecordList) {
-            if(monthlyRecord.isExpense()){
+            if (monthlyRecord.isExpense()) {
                 double currentSpendSum = monthlyRecord.getQuantity() * monthlyRecord.getSumOfOne();
-                if(currentSpendSum > spendSum){
+                if (currentSpendSum > spendSum) {
                     spendSum = currentSpendSum;
                     title = monthlyRecord.getItemName();
                 }
@@ -88,9 +89,9 @@ public class MonthData {
         return title;
     }
 
-    public double getSumBigSpend(String title){
+    public double getSumBigSpend(String title) {
         for (MonthlyRecord monthlyRecord : monthlyRecordList) {
-            if(monthlyRecord.isExpense() && monthlyRecord.getItemName().equalsIgnoreCase(title)){
+            if (monthlyRecord.isExpense() && monthlyRecord.getItemName().equalsIgnoreCase(title)) {
                 return monthlyRecord.getQuantity() * monthlyRecord.getSumOfOne();
             }
         }

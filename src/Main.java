@@ -7,6 +7,3 @@ public class Main {
         new AccountingApplication(new AccountingData()).start();
     }
 }
-
-
-

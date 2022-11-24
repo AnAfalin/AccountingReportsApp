@@ -23,7 +23,7 @@ public class YearData {
         return monthDataMap;
     }
 
-    public void addRecordMonthData(Byte numberMonth, MonthData monthData){
+    public void addRecordMonthData(byte numberMonth, MonthData monthData) {
         monthDataMap.put(numberMonth, monthData);
     }
 
@@ -51,16 +51,16 @@ public class YearData {
         return averageExpense / month.size();
     }
 
-    public double getProfitByMonth(int month){
+    public double getProfitByMonth(int month) {
         double sumExpense = 0;
-        double sumNotExpense= 0;
+        double sumNotExpense = 0;
         for (YearlyRecord yearlyRecord : recordListYear) {
-            if(yearlyRecord.getMonth() == month){
-               if(yearlyRecord.getIsExpense()) {
-                   sumExpense = yearlyRecord.getAmount();
-               }else {
-                   sumNotExpense = yearlyRecord.getAmount();
-               }
+            if (yearlyRecord.getMonth() == month) {
+                if (yearlyRecord.getIsExpense()) {
+                    sumExpense = yearlyRecord.getAmount();
+                } else {
+                    sumNotExpense = yearlyRecord.getAmount();
+                }
             }
         }
         return sumNotExpense - sumExpense;

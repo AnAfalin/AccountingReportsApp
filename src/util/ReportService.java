@@ -18,15 +18,16 @@ public class ReportService {
     private static final String[] TITLE_MONTH = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
             "Июль", "Август", "Сентябрь", "Октябрь", "Декабрь"};
 
-
     public static void readYearlyReport(AccountingData accountingData, int year) {
         String path = "reportFiles/y." + year + ".csv";
         System.out.println("Считывание файла " + path + "... ");
         String text = readFileContentsOrNull(path);
-        if(text == null){
+        if (text == null) {
             return;
+        } else {
+            System.out.println("Файл считан");
         }
-        String[] textStrings = text.split(System.lineSeparator());
+        String[] textStrings = text.split("\r?\r\n?\n");
 
         List<YearlyRecord> list = new ArrayList<>();
 
@@ -47,9 +48,9 @@ public class ReportService {
         }
 
         YearData yearData;
-        if(!accountingData.getYearDataMap().containsKey(year)){
-           yearData = new YearData(list); //создали новый элемент данных года
-        }else {
+        if (!accountingData.getYearDataMap().containsKey(year)) {
+            yearData = new YearData(list);
+        } else {
             yearData = accountingData.getYearDataMap().get(year);
         }
 
@@ -57,28 +58,28 @@ public class ReportService {
         accountingData.getYearDataMap().put(year, yearData);
     }
 
-    public static void readMonthlyReports(AccountingData accountingData, int year){
-        for (byte i = 1; i <=12 ; i++) {
+    public static void readMonthlyReports(AccountingData accountingData, int year) {
+        for (byte i = 1; i <= 12; i++) {
 
-            String path =  i < 10 ? "reportFiles/m." + year + "0" + i + ".csv" : "reportFiles/m." + year + "" + i + ".csv...";
-            String message =  i < 10 ? "Считывание файла m." + year + "0" + i + ".csv" : "Считывание файла m." + year + "" + i + ".csv...";
+            String path = i < 10 ? "reportFiles/m." + year + "0" + i + ".csv" : "reportFiles/m." + year + "" + i + ".csv";
+            String message = i < 10 ? "Считывание файла m." + year + "0" + i + ".csv" : "Считывание файла m." + year + "" + i + ".csv...";
             System.out.println(message);
 
             String text = readFileContentsOrNull(path);
 
-            if(text == null){
-                System.out.println();
-                return;
-            }else {
+            if (text == null) {
+                continue;
+            } else {
                 System.out.println("Файл считан");
             }
             readMonthReport(accountingData, text, year, i);
+            System.out.println("Считывание завершено.");
         }
     }
 
     public static void readMonthReport(AccountingData accountingData, String text, int year, byte numMonth) {
 
-        String[] textStrings = text.split(System.lineSeparator());
+        String[] textStrings = text.split("\r?\r\n?\n");
 
         List<MonthlyRecord> list = new ArrayList<>();
 
@@ -90,7 +91,8 @@ public class ReportService {
             String itemName = partString[0];
             boolean isExpense = Boolean.parseBoolean(partString[1]);
             int quantity = Integer.parseInt(partString[2]);
-            int sumOfOne = Integer.parseInt(partString[3]);;
+            int sumOfOne = Integer.parseInt(partString[3]);
+            ;
 
             newMonthlyRecord.setItemName(itemName);
             newMonthlyRecord.setExpense(isExpense);
@@ -100,19 +102,19 @@ public class ReportService {
             list.add(newMonthlyRecord);
         }
 
-        MonthData value = new MonthData(TITLE_MONTH[numMonth - 1], list);
+        MonthData monthData = new MonthData(TITLE_MONTH[numMonth - 1], list);
 
         YearData yearData = accountingData.getYearDataMap().get(year);
-        if(yearData == null){
+        if (yearData == null) {
             yearData = new YearData();
         }
         accountingData.addYearData(year, yearData);
-        yearData.addRecordMonthData(numMonth, value);
+        yearData.addRecordMonthData(numMonth, monthData);
     }
 
-    public static void checkCollationDataYearlyMonthly(AccountingData accountingData, int year){
+    public static void checkCollationDataYearlyMonthly(AccountingData accountingData, int year) {
         Map<Integer, YearData> yearDataMap = accountingData.getYearDataMap();
-        if(!yearDataMap.containsKey(year)){
+        if (!yearDataMap.containsKey(year)) {
             System.out.println("По указанному году данных нет");
             return;
         }
@@ -123,7 +125,7 @@ public class ReportService {
         Map<Byte, MonthData> monthDataMap = yearData.getMonthDataMap();
         List<YearlyRecord> recordListYear = yearData.getRecordListYear();
 
-        if(monthDataMap == null || recordListYear == null){
+        if (monthDataMap == null || recordListYear == null) {
             System.out.println("Не все отчеты были считаны");
             return;
         }
@@ -145,10 +147,10 @@ public class ReportService {
             System.out.println(amount + " " + monthData.getExpense() + "/" + monthData.getIncome());
         }
 
-        if(listErrorMonth.isEmpty()){
+        if (listErrorMonth.isEmpty()) {
             System.out.println("Ошибок в месячных отчетах не обнаружено");
-        }else {
-            System.out.println("Найдены ошибки в отчетах следующих месяцах:");
+        } else {
+            System.out.println("Найдены ошибки в отчетах следующих месяцев:");
             for (Integer month : listErrorMonth) {
                 System.out.println(TITLE_MONTH[month - 1]);
             }
