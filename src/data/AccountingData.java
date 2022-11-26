@@ -1,5 +1,6 @@
 package data;
 
+import java.time.Month;
 import java.util.*;
 
 public class AccountingData {
@@ -59,11 +60,8 @@ public class AccountingData {
 
         System.out.println("Прибыль по месяцам: ");
 
-        String[] monthTitle = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-                "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
-
         for (int i = 0; i < yearData.getMonthDataMap().size(); i++) {
-            System.out.println(monthTitle[i] + ": " + yearData.getProfitByMonth(i + 1));
+            System.out.println(Month.of(i + 1) + " : " + yearData.getMonthProfit(i + 1));
         }
 
         System.out.println("Средний расход за все месяцы в году: " + yearData.getAverageExpense());

@@ -19,6 +19,9 @@ public class YearData {
         this.recordListYear = recordListYear;
     }
 
+    public List<YearlyRecord> getRecordListYear() {
+        return recordListYear;
+    }
     public Map<Byte, MonthData> getMonthDataMap() {
         return monthDataMap;
     }
@@ -51,7 +54,7 @@ public class YearData {
         return averageExpense / month.size();
     }
 
-    public double getProfitByMonth(int month) {
+    public double getMonthProfit(int month) {
         double sumExpense = 0;
         double sumNotExpense = 0;
         for (YearlyRecord yearlyRecord : recordListYear) {
@@ -66,7 +69,4 @@ public class YearData {
         return sumNotExpense - sumExpense;
     }
 
-    public List<YearlyRecord> getRecordListYear() {
-        return recordListYear;
-    }
 }

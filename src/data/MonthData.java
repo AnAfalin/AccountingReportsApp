@@ -5,7 +5,7 @@ import records.MonthlyRecord;
 import java.util.List;
 
 public class MonthData {
-    private String title;
+    private final String title;
     private List<MonthlyRecord> monthlyRecordList;
 
     public MonthData(String title, List<MonthlyRecord> monthlyRecordList) {
@@ -37,9 +37,9 @@ public class MonthData {
         return expense;
     }
 
-    public int getProfit() {
-        int income = 0;
-        int expense = 0;
+    public double getProfit() {
+        double income = 0;
+        double expense = 0;
         for (MonthlyRecord record : monthlyRecordList) {
             if (record.isExpense()) {
                 expense += record.getQuantity() * record.getSumOfOne();
