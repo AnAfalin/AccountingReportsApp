@@ -6,7 +6,8 @@ import java.util.Scanner;
 
 public class AccountingApplication {
     private final AccountingData accountingData;
-    private static final String MENU = "Выберите какую операцию необходимо выполнить: " + System.lineSeparator() +
+    private static final String MENU = "ГЛАВНОЕ МЕНЮ:" + System.lineSeparator() +
+            "Выберите какую операцию необходимо выполнить: " + System.lineSeparator() +
             "1.	Считать все месячные отчёты" + System.lineSeparator() +
             "2.	Считать годовой отчёт" + System.lineSeparator() +
             "3.	Сверить отчёты" + System.lineSeparator() +
@@ -23,7 +24,7 @@ public class AccountingApplication {
     public void start() {
         int userInput;
         while (true) {
-            System.out.println(MENU);
+            System.out.println("\033[1;34m" + MENU + "\033[0m");
             userInput = SCANNER.nextInt();
 
             switch (userInput) {
@@ -61,7 +62,6 @@ public class AccountingApplication {
 
         ReportService.readYearlyReport(accountingData, year);
     }
-
 
     private void printInfoYearReportByMonth() {
         System.out.println("Введите год, по которому необходимо вывести отчет по месяцам");

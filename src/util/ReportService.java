@@ -20,12 +20,12 @@ public class ReportService {
 
     public static void readYearlyReport(AccountingData accountingData, int year) {
         String path = "reportFiles/y." + year + ".csv";
-        System.out.println("Считывание файла " + path + "... ");
+        System.out.println("Считывание файла " + Path.of(path).getFileName());
         String text = readFileContentsOrNull(path);
         if (text == null) {
             return;
         } else {
-            System.out.println("Файл считан");
+            System.out.println("\033[0;32mФайл считан\033[0m");
         }
         String[] textStrings = text.split("\r?\r\n?\n");
 
@@ -62,7 +62,7 @@ public class ReportService {
         for (byte i = 1; i <= 12; i++) {
 
             String path = i < 10 ? "reportFiles/m." + year + "0" + i + ".csv" : "reportFiles/m." + year + "" + i + ".csv";
-            String message = i < 10 ? "Считывание файла m." + year + "0" + i + ".csv" : "Считывание файла m." + year + "" + i + ".csv...";
+            String message = "Считывание файла " + Path.of(path).getFileName();
             System.out.println(message);
 
             String text = readFileContentsOrNull(path);
@@ -70,10 +70,9 @@ public class ReportService {
             if (text == null) {
                 continue;
             } else {
-                System.out.println("Файл считан");
+                System.out.println("\033[0;32mФайл считан\033[0m");
             }
             readMonthReport(accountingData, text, year, i);
-            System.out.println("Считывание завершено.");
         }
     }
 
@@ -92,7 +91,6 @@ public class ReportService {
             boolean isExpense = Boolean.parseBoolean(partString[1]);
             int quantity = Integer.parseInt(partString[2]);
             int sumOfOne = Integer.parseInt(partString[3]);
-            ;
 
             newMonthlyRecord.setItemName(itemName);
             newMonthlyRecord.setExpense(isExpense);
@@ -126,7 +124,7 @@ public class ReportService {
         List<YearlyRecord> recordListYear = yearData.getRecordListYear();
 
         if (monthDataMap == null || recordListYear == null) {
-            System.out.println("Не все отчеты были считаны");
+            System.out.println("\033[0;32mОшибка. Не все отчеты были считаныю\033[0m");
             return;
         }
 
@@ -148,12 +146,13 @@ public class ReportService {
         }
 
         if (listErrorMonth.isEmpty()) {
-            System.out.println("Ошибок в месячных отчетах не обнаружено");
+            System.out.println("\033[0;32mОшибок в месячных отчетах не обнаружено.\033[0m");
         } else {
-            System.out.println("Найдены ошибки в отчетах следующих месяцев:");
+            System.out.print("\033[0;31mНайдены ошибки в отчетах следующих месяцах: ");
             for (Integer month : listErrorMonth) {
-                System.out.println(TITLE_MONTH[month - 1]);
+                System.out.print(TITLE_MONTH[month - 1] + " ");
             }
+            System.out.println("\033[0m");
         }
     }
 
@@ -162,8 +161,8 @@ public class ReportService {
         try {
             return Files.readString(pathFile);
         } catch (IOException e) {
-            System.out.println("Невозможно прочитать файл с отчётом. Возможно, файл не находится в директории "
-                    + pathFile.getParent().toAbsolutePath());
+            System.out.println("\033[0;31mОшибка. Невозможно прочитать файл " + Path.of(path).getFileName() + ". Возможно, файл не находится в директории."
+                    + pathFile.getParent().toAbsolutePath() + "\033[0m");
             return null;
         }
     }
